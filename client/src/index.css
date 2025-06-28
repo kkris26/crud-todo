@@ -1,2 +1,9 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark, black, forest, 
+    corporate;
+  }
+
+  .collapse-content{
+    padding-bottom: 0;
+  }
