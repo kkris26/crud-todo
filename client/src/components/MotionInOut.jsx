@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-const MotionInOut = ({ children, item = 1 }) => {
+export const MotionSlide = ({ children, item = 1 }) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -8,6 +8,7 @@ const MotionInOut = ({ children, item = 1 }) => {
       transition={{
         duration: 0.5,
         ease: "easeInOut",
+        delay:0.2
       }}
       key={item}
     >
@@ -16,4 +17,20 @@ const MotionInOut = ({ children, item = 1 }) => {
   );
 };
 
-export default MotionInOut;
+export const MotionUp = ({ children, item = 1 }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{
+        duration: 0.5,
+        ease: "easeInOut",
+        delay: 0.8,
+      }}
+      key={item}
+    >
+      {children}
+    </motion.div>
+  );
+};

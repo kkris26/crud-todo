@@ -1,33 +1,18 @@
 {
   "todos": [
     {
-      "id": "7c87",
+      "id": "2409",
       "title": "nasi",
       "complete": true
     },
     {
-      "id": "2b81",
-      "title": "makan",
-      "complete": true
-    },
-    {
-      "id": "4fe6",
-      "title": "nasi amakan",
-      "complete": true
-    },
-    {
-      "id": "ccf3",
+      "id": "aee4",
       "title": "nasi",
       "complete": true
     },
     {
-      "id": "a07e",
+      "id": "95cb",
       "title": "nasi",
-      "complete": false
-    },
-    {
-      "id": "a8a6",
-      "title": "makan",
       "complete": true
     }
   ]

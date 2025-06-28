@@ -1,18 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import ButtonIcon from "./components/ButtonIcon";
-import { LuTrash } from "react-icons/lu";
-import { AiOutlineEdit } from "react-icons/ai";
 import ModalWarning from "./components/ModalWarning";
 import ThemeToggle from "./components/ThemeToggle";
 import Accordion from "./components/Accordion";
-import { AnimatePresence } from "motion/react";
-import MotionInOut from "./components/MotionInOut";
+import TodoList from "./components/TodoList";
 
 function App() {
   const [input, setInput] = useState({ title: "", complete: false });
   const [update, setUpdate] = useState({});
   const [todos, setTodos] = useState([]);
-  const [udpateTodo, setUpdateTodo] = useState([]);
   const [toDelete, setToDelete] = useState({});
   const [open, setOpen] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -29,7 +24,9 @@ function App() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 200);
     }
   };
   const handleSubmit = async (e) => {
@@ -37,6 +34,7 @@ function App() {
       return;
     }
     handleAdd(e);
+    setOpen(true);
   };
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -119,8 +117,9 @@ function App() {
   useEffect(() => {
     getTodo();
   }, []);
-  console.log(update);
-  console.log(inputRef);
+  console.log(update, "update");
+  console.log(input, "input");
+
   return (
     <>
       <ModalWarning
@@ -132,18 +131,18 @@ function App() {
         <form onSubmit={handleSubmit}>
           <div className="join w-100">
             <input
-              className="input w-full text-sm rounded-l-lg border-base-200 shadow join-item focus:shadow p-4 focus:outline-0 focus:border-base-200"
+              className="input w-full text-sm rounded-l-md border-base-200 shadow join-item focus:shadow p-4 focus:outline-0 focus:border-base-200"
               placeholder="Add Task"
               onChange={handleOnChange}
               value={input.title}
               required
             />
-            <button className="btn join-item rounded-r-lg">
+            <button className="btn join-item rounded-r-md">
               {input.id ? "Update" : "Add"}
             </button>
           </div>
         </form>
-        <div className="list bg-base-100 rounded-md shadow-md w-100 p-0 border border-base-200">
+        <div className="list bg-base-100 rounded-md shadow-sm w-100 p-0 border border-base-200">
           <li className="p-4 text-xs opacity-60 tracking-wide flex justify-between">
             <p>Your todo list</p>
             <p>
@@ -158,144 +157,34 @@ function App() {
               action={() => setOpen(!open)}
               def={true}
             >
-              <ul className="h-80 overflow-y-scroll overflow-x-hidden">
-                {!loading ? (
-                  <AnimatePresence initial={false}>
-                    {todos.filter((item) => !item.complete).length > 0 ? (
-                      todos
-                        .filter((item) => !item.complete)
-                        .map((item) => (
-                          <MotionInOut key={item.id}>
-                            <li className="list-row text-xs px-4 items-center flex border-t border-base-200 rounded-none justify-between">
-                              <div className="flex items-center gap-1.5 w-full">
-                                {update.id !== item.id && (
-                                  <input
-                                    type="checkbox"
-                                    checked={item.complete}
-                                    className="checkbox checkbox-xs checkbox-neutral border-base-content/70"
-                                    onChange={(e) => handleCheck(e, item)}
-                                  />
-                                )}
-                                <form onSubmit={(e) => handleUpdate(e, update)}>
-                                  <input
-                                    disabled={update.id !== item.id}
-                                    className={`focus:outline-0 w-full  ${
-                                      item.complete ? "line-through" : ""
-                                    }`}
-                                    onChange={handleOnChange}
-                                    value={
-                                      update.id !== item.id
-                                        ? item.title
-                                        : update.title
-                                    }
-                                    ref={
-                                      update.id === item.id ? inputRef : null
-                                    }
-                                  />
-                                </form>
-                              </div>
-                              <div className="flex gap-1   ">
-                                <ButtonIcon
-                                  action={(e) =>
-                                    update.id !== item.id
-                                      ? handleEdit(item)
-                                      : handleUpdate(e, update)
-                                  }
-                                >
-                                  <AiOutlineEdit />
-                                </ButtonIcon>
-                                {update.id !== item.id && (
-                                  <ButtonIcon
-                                    action={() => confirmDelete(item)}
-                                  >
-                                    <LuTrash />
-                                  </ButtonIcon>
-                                )}
-                              </div>
-                            </li>
-                          </MotionInOut>
-                        ))
-                    ) : (
-                      <MotionInOut>
-                        <li className="list-row h-full text-xs px-4 items-center justify-center flex border-t border-base-200 rounded-none">
-                          You dont have any todo
-                        </li>
-                      </MotionInOut>
-                    )}
-                  </AnimatePresence>
-                ) : (
-                  <li className="list-row h-full text-xs px-4 items-center justify-center flex border-t border-base-200 rounded-none">
-                    Getting Data
-                  </li>
-                )}
-              </ul>
+              <TodoList
+                todos={todos.filter((item) => !item.complete)}
+                loading={loading}
+                update={update}
+                handleCheck={handleCheck}
+                handleEdit={handleEdit}
+                handleUpdate={handleUpdate}
+                handleOnChange={handleOnChange}
+                confirmDelete={confirmDelete}
+                inputRef={inputRef}
+              />
             </Accordion>
             <Accordion
               heading="Complete"
               open={!open}
               action={() => setOpen(!open)}
             >
-              <ul className="h-80 overflow-auto">
-                <AnimatePresence initial={false}>
-                  {todos.filter((item) => item.complete).length > 0 ? (
-                    todos
-                      .filter((item) => item.complete)
-                      .map((item, i) => (
-                        <MotionInOut key={item.id}>
-                          <li className="list-row text-xs px-4 items-center flex border-t border-base-200 rounded-none justify-between">
-                            <div className="flex items-center gap-1.5 w-full">
-                              {update.id !== item.id && (
-                                <input
-                                  type="checkbox"
-                                  checked={item.complete}
-                                  className="checkbox checkbox-xs checkbox-neutral border-base-content/70"
-                                  onChange={(e) => handleCheck(e, item)}
-                                />
-                              )}
-                              <form onSubmit={(e) => handleUpdate(e, update)}>
-                                <input
-                                  disabled={update.id !== item.id}
-                                  className={`focus:outline-0 w-full  ${
-                                    item.complete ? "line-through" : ""
-                                  }`}
-                                  onChange={handleOnChange}
-                                  value={
-                                    update.id !== item.id
-                                      ? item.title
-                                      : update.title
-                                  }
-                                  ref={update.id === item.id ? inputRef : null}
-                                />
-                              </form>
-                            </div>
-                            <div className="flex gap-1   ">
-                              <ButtonIcon
-                                action={(e) =>
-                                  update.id !== item.id
-                                    ? handleEdit(item)
-                                    : handleUpdate(e, update)
-                                }
-                              >
-                                <AiOutlineEdit />
-                              </ButtonIcon>
-                              {update.id !== item.id && (
-                                <ButtonIcon action={() => confirmDelete(item)}>
-                                  <LuTrash />
-                                </ButtonIcon>
-                              )}
-                            </div>
-                          </li>
-                        </MotionInOut>
-                      ))
-                  ) : (
-                    <MotionInOut>
-                      <li className="list-row h-full text-xs px-4 items-center justify-center flex border-t border-base-200 rounded-none">
-                        You dont have any todo
-                      </li>
-                    </MotionInOut>
-                  )}
-                </AnimatePresence>
-              </ul>
+              <TodoList
+                todos={todos.filter((item) => item.complete)}
+                loading={loading}
+                update={update}
+                handleCheck={handleCheck}
+                handleEdit={handleEdit}
+                handleUpdate={handleUpdate}
+                handleOnChange={handleOnChange}
+                confirmDelete={confirmDelete}
+                inputRef={inputRef}
+              />
             </Accordion>
           </div>
         </div>
