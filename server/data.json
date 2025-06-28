@@ -1,19 +1,30 @@
 {
   "todos": [
     {
-      "id": 1,
-      "title": "Belajar React",
-      "completed": false
+      "id": "9abe",
+      "title": "",
+      "complete": true,
+      "comple": false
     },
     {
-      "id": 2,
-      "title": "Kerjakan tugas bootcamp",
-      "completed": true
+      "id": "f372",
+      "title": "",
+      "complete": true
     },
     {
-      "id": 3,
-      "title": "Beli kopi dan cemilan",
-      "completed": false
+      "id": "c17c",
+      "title": "sad",
+      "complete": false
+    },
+    {
+      "id": "3795",
+      "title": "makand 3024 45",
+      "complete": false
+    },
+    {
+      "id": "a260",
+      "title": "nasi greng 2025",
+      "complete": false
     }
   ]
 }
