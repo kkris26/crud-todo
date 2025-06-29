@@ -16,7 +16,7 @@ const TodoList = ({
   inputRef,
 }) => {
   return (
-    <ul className="h-80 overflow-y-scroll overflow-x-hidden">
+    <ul className="h-80 overflow-y-scroll overflow-x-hidden ">
       {!loading ? (
         <AnimatePresence initial={false}>
           {todos.length > 0 ? (

@@ -3,6 +3,7 @@ import ModalWarning from "./components/ModalWarning";
 import ThemeToggle from "./components/ThemeToggle";
 import Accordion from "./components/Accordion";
 import TodoList from "./components/TodoList";
+import InputForm from "./components/InputForm";
 
 function App() {
   const [input, setInput] = useState({ title: "", complete: false });
@@ -127,30 +128,21 @@ function App() {
         itemToDelete={toDelete}
         action={handleDelete}
       />
-      <div className="flex flex-col gap-3 items-center w-full min-h-screen justify-center">
-        <form onSubmit={handleSubmit}>
-          <div className="join w-100">
-            <input
-              className="input w-full text-sm rounded-l-md border-base-200 shadow join-item focus:shadow p-4 focus:outline-0 focus:border-base-200"
-              placeholder="Add Task"
-              onChange={handleOnChange}
-              value={input.title}
-              required
-            />
-            <button className="btn join-item rounded-r-md">
-              {input.id ? "Update" : "Add"}
-            </button>
-          </div>
-        </form>
-        <div className="list bg-base-100 rounded-md shadow-sm w-100 p-0 border border-base-200">
-          <li className="p-4 text-xs opacity-60 tracking-wide flex justify-between">
+      <div className="flex flex-col gap-2 items-center w-150 mx-auto min-h-screen justify-center">
+          <li className="px-1 w-full py-1 rounded-t-md text-xs tracking-wide flex justify-between">
             <p>Your todo list</p>
             <p>
               {todos.filter((item) => item.complete).length}/{todos.length}
             </p>
           </li>
+        <div className="list bg-base-100 rounded-md shadow-sm w-full p-0 border border-base-200">
+          <InputForm
+            submit={handleSubmit}
+            change={handleOnChange}
+            input={input}
+          />
 
-          <div className="join join-vertical bg-base-100 ">
+          <div className="join join-vertical bg-base-100 rounded-md">
             <Accordion
               heading="To do"
               open={open}

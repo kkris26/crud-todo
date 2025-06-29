@@ -2,18 +2,23 @@
   "todos": [
     {
       "id": "2409",
-      "title": "nasi",
+      "title": "nasi kuning",
       "complete": true
     },
     {
       "id": "aee4",
       "title": "nasi",
-      "complete": true
+      "complete": false
     },
     {
       "id": "95cb",
       "title": "nasi",
-      "complete": true
+      "complete": false
+    },
+    {
+      "id": "f8f9",
+      "title": "cuci baju",
+      "complete": false
     }
   ]
 }
