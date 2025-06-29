@@ -11,64 +11,70 @@ const TodoList = ({
   handleCheck,
   handleUpdate,
   handleEdit,
-  handleOnChange,
+  handleOnChangeUpdate,
   confirmDelete,
   inputRef,
 }) => {
   return (
     <ul className="h-80 overflow-y-scroll overflow-x-hidden ">
-      {!loading ? (
+      {!loading ? ( 
         <AnimatePresence initial={false}>
           {todos.length > 0 ? (
             todos.map((item) => (
               <MotionSlide key={item.id}>
-                <li className="list-row text-xs px-4 items-center flex border-t border-base-200 rounded-none justify-between">
-                  <div className="flex items-center gap-1.5 w-full">
-                    {update.id !== item.id && (
-                      <input
-                        type="checkbox"
-                        checked={item.complete}
-                        className="checkbox checkbox-xs checkbox-neutral border-base-content/70"
-                        onChange={(e) => handleCheck(e, item)}
-                      />
-                    )}
-                    <form onSubmit={(e) => handleUpdate(e, update)}>
-                      <input
-                        // disabled={update.id !== item.id}
-                        className={`focus:outline-0 w-full ${
-                          item.complete ? "line-through" : ""
-                        }`}
-                        onChange={handleOnChange}
-                        value={
-                          update.id !== item.id ? item.title : update.title
+                <div className="flex flex-col gap-0">
+                  <li className="list-row text-xs px-4 py-3 items-center flex border-b border-base-200/60 rounded-none justify-between">
+                    <div className="flex items-center gap-1.5 w-full">
+                      {update.id !== item.id && (
+                        <input
+                          type="checkbox"
+                          checked={item.complete}
+                          className="checkbox checkbox-xs checkbox-neutral border-base-content/70"
+                          onChange={(e) => handleCheck(e, item)}
+                        />
+                      )}
+                      <form
+                        onSubmit={(e) => handleUpdate(e, update)}
+                        className="w-full"
+                      >
+                        <input
+                          onChange={(e) => handleOnChangeUpdate(e)}
+                          className={`focus:outline-0 w-full ${
+                            item.complete ? "line-through" : ""
+                          }`}
+                          value={
+                            update.id !== item.id ? item.title : update.title
+                          }
+                          ref={update.id === item.id ? inputRef : null}
+                          onClick={() => handleEdit(item)}
+                          readOnly={update.id !== item.id}
+                        />
+                      </form>
+                    </div>
+                    <div className="flex gap-1">
+                      <ButtonIcon
+                        action={(e) =>
+                          update.id !== item.id
+                            ? handleEdit(item)
+                            : handleUpdate(e, update)
                         }
-                        ref={update.id === item.id ? inputRef : null}
-                        onClick={() => handleEdit(item)}
-                      />
-                    </form>
-                  </div>
-                  <div className="flex gap-1">
-                    <ButtonIcon
-                      action={(e) =>
-                        update.id !== item.id
-                          ? handleEdit(item)
-                          : handleUpdate(e, update)
-                      }
-                    >
-                      <AiOutlineEdit className="text-sm" />
-                    </ButtonIcon>
-                    {update.id !== item.id && (
-                      <ButtonIcon action={() => confirmDelete(item)}>
-                        <LuTrash />
+                      >
+                        <AiOutlineEdit className="text-sm" />
                       </ButtonIcon>
-                    )}
-                  </div>
-                </li>
+                      {update.id !== item.id && (
+                        <ButtonIcon action={() => confirmDelete(item)}>
+                          <LuTrash />
+                        </ButtonIcon>
+                      )}
+                    </div>
+                  </li>
+                  {/* <div className="divider divider-base-200 w-full m-0"></div> */}
+                </div>
               </MotionSlide>
             ))
           ) : (
             <MotionUp>
-              <li className="list-row h-full text-xs px-4 items-center justify-center flex border-t border-base-200 rounded-none">
+              <li className="list-row mt-4 text-xs px-4 items-center justify-center flex rounded-none">
                 You don't have any todo
               </li>
             </MotionUp>

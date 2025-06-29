@@ -10,7 +10,7 @@ const Accordion = ({ children, heading, open, action, def }) => {
         onClick={action}
         readOnly
       />
-      <div className="collapse-title font-semibold">{heading}</div>
+      <div className="collapse-title font-semibold border-b border-base-200">{heading}</div>
       <div className="collapse-content p-0 text-sm">{children}</div>
     </div>
   );

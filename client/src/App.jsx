@@ -4,39 +4,18 @@ import ThemeToggle from "./components/ThemeToggle";
 import Accordion from "./components/Accordion";
 import TodoList from "./components/TodoList";
 import InputForm from "./components/InputForm";
+import useGetTodos from "./hooks/useGetTodos";
 
 function App() {
   const [input, setInput] = useState({ title: "", complete: false });
   const [update, setUpdate] = useState({});
-  const [todos, setTodos] = useState([]);
   const [toDelete, setToDelete] = useState({});
   const [open, setOpen] = useState(true);
-  const [loading, setLoading] = useState(true);
   const modalRef = useRef(null);
   const inputRef = useRef(null);
-
   const server = "http://localhost:8000/todos/";
+  const { todos, loading, setTodos } = useGetTodos(server);
 
-  const getTodo = async () => {
-    try {
-      const response = await fetch(server);
-      const data = await response.json();
-      setTodos(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 200);
-    }
-  };
-  const handleSubmit = async (e) => {
-    if (input.title === "") {
-      return;
-    }
-    handleAdd(e);
-    setOpen(true);
-  };
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
@@ -50,6 +29,7 @@ function App() {
       const data = await response.json();
       setTodos((prev) => [...prev, data]);
       setInput((prev) => ({ ...prev, title: "" }));
+      setOpen(true);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -79,11 +59,13 @@ function App() {
     }
   };
   const handleOnChange = (e) => {
-    console.log(e.target.value);
     if (update.id) {
-      return setUpdate((prev) => ({ ...prev, title: e.target.value }));
+      handleUpdate(e, update);
     }
-    setInput((prev) => ({ ...prev, title: e.target.value }));
+    return setInput((prev) => ({ ...prev, title: e.target.value }));
+  };
+  const handleOnChangeUpdate = (e) => {
+    return setUpdate((prev) => ({ ...prev, title: e.target.value }));
   };
 
   const handleEdit = (item) => {
@@ -102,9 +84,7 @@ function App() {
       await fetch(server + id, {
         method: "DELETE",
       });
-      console.log("berhasil hapus", id);
       setTodos((prev) => prev.filter((item) => item.id !== id));
-      // setInput((prev) => ({ ...prev, id: null }));
     } catch (error) {
       console.log(error);
     }
@@ -115,12 +95,6 @@ function App() {
     setToDelete(item);
   };
 
-  useEffect(() => {
-    getTodo();
-  }, []);
-  console.log(update, "update");
-  console.log(input, "input");
-
   return (
     <>
       <ModalWarning
@@ -129,18 +103,14 @@ function App() {
         action={handleDelete}
       />
       <div className="flex flex-col gap-2 items-center w-150 mx-auto min-h-screen justify-center">
-          <li className="px-1 w-full py-1 rounded-t-md text-xs tracking-wide flex justify-between">
-            <p>Your todo list</p>
-            <p>
-              {todos.filter((item) => item.complete).length}/{todos.length}
-            </p>
-          </li>
+        <li className="px-1 w-full py-1 rounded-t-md text-xs tracking-wide flex justify-between">
+          <p>Your todo list</p>
+          <p>
+            {todos.filter((item) => item.complete).length}/{todos.length}
+          </p>
+        </li>
         <div className="list bg-base-100 rounded-md shadow-sm w-full p-0 border border-base-200">
-          <InputForm
-            submit={handleSubmit}
-            change={handleOnChange}
-            input={input}
-          />
+          <InputForm submit={handleAdd} change={handleOnChange} input={input} />
 
           <div className="join join-vertical bg-base-100 rounded-md">
             <Accordion
@@ -156,7 +126,7 @@ function App() {
                 handleCheck={handleCheck}
                 handleEdit={handleEdit}
                 handleUpdate={handleUpdate}
-                handleOnChange={handleOnChange}
+                handleOnChangeUpdate={handleOnChangeUpdate}
                 confirmDelete={confirmDelete}
                 inputRef={inputRef}
               />
@@ -173,7 +143,7 @@ function App() {
                 handleCheck={handleCheck}
                 handleEdit={handleEdit}
                 handleUpdate={handleUpdate}
-                handleOnChange={handleOnChange}
+                handleOnChangeUpdate={handleOnChangeUpdate}
                 confirmDelete={confirmDelete}
                 inputRef={inputRef}
               />
