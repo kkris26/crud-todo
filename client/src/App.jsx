@@ -102,7 +102,7 @@ function App() {
         itemToDelete={toDelete}
         action={handleDelete}
       />
-      <div className="flex flex-col gap-2 items-center w-150 mx-auto min-h-screen justify-center">
+      <div className="flex flex-col gap-2 px-4 md:px-0 items-center w-full md:w-150 mx-auto min-h-screen justify-center">
         <li className="px-1 w-full py-1 rounded-t-md text-xs tracking-wide flex justify-between">
           <p>Your todo list</p>
           <p>
