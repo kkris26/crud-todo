@@ -3,6 +3,7 @@ import { MotionSlide, MotionUp } from "./MotionInOut";
 import ButtonIcon from "./ButtonIcon";
 import { AiOutlineEdit } from "react-icons/ai";
 import { LuTrash } from "react-icons/lu";
+import HoverInfo from "./HoverInfo";
 
 const TodoList = ({
   todos,
@@ -17,7 +18,7 @@ const TodoList = ({
 }) => {
   return (
     <ul className="h-80 overflow-y-scroll overflow-x-hidden ">
-      {!loading ? ( 
+      {!loading ? (
         <AnimatePresence initial={false}>
           {todos.length > 0 ? (
             todos.map((item) => (
@@ -51,7 +52,7 @@ const TodoList = ({
                         />
                       </form>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 items-center">
                       <ButtonIcon
                         action={(e) =>
                           update.id !== item.id
@@ -59,10 +60,12 @@ const TodoList = ({
                             : handleUpdate(e, update)
                         }
                       >
+                        <HoverInfo>Edit</HoverInfo>
                         <AiOutlineEdit className="text-sm" />
                       </ButtonIcon>
                       {update.id !== item.id && (
                         <ButtonIcon action={() => confirmDelete(item)}>
+                          <HoverInfo>Delete</HoverInfo>
                           <LuTrash />
                         </ButtonIcon>
                       )}
