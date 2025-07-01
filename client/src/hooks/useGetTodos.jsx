@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-const useGetTodos = (server) => {
+const useGetTodos = (server, errorRef) => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const getTodo = async () => {
@@ -8,7 +8,7 @@ const useGetTodos = (server) => {
       const data = await response.json();
       setTodos(data);
     } catch (error) {
-      console.log(error);
+      errorRef.current.showModal();
     } finally {
       setTimeout(() => {
         setLoading(false);

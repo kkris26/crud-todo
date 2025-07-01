@@ -5,6 +5,7 @@ import Accordion from "./components/Accordion";
 import TodoList from "./components/TodoList";
 import InputForm from "./components/InputForm";
 import useGetTodos from "./hooks/useGetTodos";
+import ErrorModal from "./components/ErrorModal";
 
 function App() {
   const [input, setInput] = useState({ title: "", complete: false });
@@ -12,9 +13,14 @@ function App() {
   const [toDelete, setToDelete] = useState({});
   const [open, setOpen] = useState(true);
   const modalRef = useRef(null);
+  const errorRef = useRef(null);
   const inputRef = useRef(null);
   const server = "http://localhost:8000/todos/";
-  const { todos, loading, setTodos } = useGetTodos(server);
+  const { todos, loading, setTodos } = useGetTodos(server, errorRef);
+
+  const handleError = () => {
+    errorRef.current.showModal();
+  };
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -32,7 +38,7 @@ function App() {
       setOpen(true);
       console.log(data);
     } catch (error) {
-      console.log(error);
+      handleError();
     }
   };
   const handleUpdate = async (e, updateItem) => {
@@ -55,7 +61,7 @@ function App() {
       setUpdate({});
       console.log(data);
     } catch (error) {
-      console.log(error);
+      handleError();
     }
   };
   const handleOnChange = (e) => {
@@ -86,7 +92,7 @@ function App() {
       });
       setTodos((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {
-      console.log(error);
+      handleError();
     }
   };
 
@@ -102,6 +108,7 @@ function App() {
         itemToDelete={toDelete}
         action={handleDelete}
       />
+      <ErrorModal ref={errorRef} />
       <div className="flex flex-col gap-2 px-4 md:px-0 items-center w-full md:w-150 mx-auto min-h-screen justify-center">
         <li className="px-1 w-full py-1 rounded-t-md text-xs tracking-wide flex justify-between">
           <p>Your todo list</p>
