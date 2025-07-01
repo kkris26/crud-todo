@@ -146,6 +146,7 @@ function App() {
                 handleOnChangeUpdate={handleOnChangeUpdate}
                 confirmDelete={confirmDelete}
                 inputRef={inputRef}
+                type={"complete"}
               />
             </Accordion>
           </div>

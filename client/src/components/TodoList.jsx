@@ -15,6 +15,7 @@ const TodoList = ({
   handleOnChangeUpdate,
   confirmDelete,
   inputRef,
+  type,
 }) => {
   return (
     <ul className="h-80 overflow-y-scroll overflow-x-hidden ">
@@ -78,7 +79,9 @@ const TodoList = ({
           ) : (
             <MotionUp>
               <li className="list-row mt-4 text-xs px-4 items-center justify-center flex rounded-none">
-                You don't have any todo
+                {type === "complete"
+                  ? "You haven’t completed any tasks."
+                  : "You’re all set! Nothing to do right now."}
               </li>
             </MotionUp>
           )}
