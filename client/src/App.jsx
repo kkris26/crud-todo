@@ -60,9 +60,11 @@ function App() {
       setTodos((prev) =>
         prev.map((item) => (item.id === updateItem.id ? data : item))
       );
+      if (update.id) {
+        updateTodo();
+      }
       setUpdate({});
       console.log(data);
-      updateTodo();
     } catch (error) {
       handleError();
     }
@@ -105,9 +107,9 @@ function App() {
     setToDelete(item);
   };
 
-  const addTodo = () => toast.success("Success Add Todo");
-  const deleteTodo = () => toast.success("Success Delete Todo");
-  const updateTodo = () => toast.success("Success Update Todo");
+  const addTodo = () => toast.success("Todo added");
+  const deleteTodo = () => toast.success("Todo deleted");
+  const updateTodo = () => toast.success("Todo updated");
 
   return (
     <>
@@ -119,7 +121,7 @@ function App() {
       <ErrorModal ref={errorRef} />
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
@@ -130,17 +132,17 @@ function App() {
         theme="dark"
         transition={Slide}
       />
-      <div className="flex flex-col gap-2 px-4 md:px-0 items-center w-full md:w-150 mx-auto min-h-screen justify-center">
+      <div className="flex  flex-col gap-2 px-4 md:px-0 items-center w-full md:w-150 mx-auto min-h-screen justify-center">
         <li className="px-1 w-full py-1 rounded-t-md text-xs tracking-wide flex justify-between">
           <p>Your todo list</p>
           <p>
             {todos.filter((item) => item.complete).length}/{todos.length}
           </p>
         </li>
-        <div className="list bg-base-100 rounded-md shadow-sm w-full p-0 border border-base-200">
+        <div className="list  rounded-md shadow-sm w-full p-0 border border-base-200">
           <InputForm submit={handleAdd} change={handleOnChange} input={input} />
 
-          <div className="join join-vertical bg-base-100 rounded-md">
+          <div className="join  join-vertical bg-base-100 rounded-md">
             <Accordion
               heading="To do"
               open={open}
