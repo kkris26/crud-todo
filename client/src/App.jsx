@@ -6,6 +6,7 @@ import TodoList from "./components/TodoList";
 import InputForm from "./components/InputForm";
 import useGetTodos from "./hooks/useGetTodos";
 import ErrorModal from "./components/ErrorModal";
+import { Slide, ToastContainer, toast } from "react-toastify";
 
 function App() {
   const [input, setInput] = useState({ title: "", complete: false });
@@ -36,6 +37,7 @@ function App() {
       setTodos((prev) => [...prev, data]);
       setInput((prev) => ({ ...prev, title: "" }));
       setOpen(true);
+      addTodo();
       console.log(data);
     } catch (error) {
       handleError();
@@ -60,6 +62,7 @@ function App() {
       );
       setUpdate({});
       console.log(data);
+      updateTodo();
     } catch (error) {
       handleError();
     }
@@ -91,6 +94,7 @@ function App() {
         method: "DELETE",
       });
       setTodos((prev) => prev.filter((item) => item.id !== id));
+      deleteTodo();
     } catch (error) {
       handleError();
     }
@@ -101,6 +105,10 @@ function App() {
     setToDelete(item);
   };
 
+  const addTodo = () => toast.success("Success Add Todo");
+  const deleteTodo = () => toast.success("Success Delete Todo");
+  const updateTodo = () => toast.success("Success Update Todo");
+
   return (
     <>
       <ModalWarning
@@ -109,6 +117,19 @@ function App() {
         action={handleDelete}
       />
       <ErrorModal ref={errorRef} />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Slide}
+      />
       <div className="flex flex-col gap-2 px-4 md:px-0 items-center w-full md:w-150 mx-auto min-h-screen justify-center">
         <li className="px-1 w-full py-1 rounded-t-md text-xs tracking-wide flex justify-between">
           <p>Your todo list</p>
