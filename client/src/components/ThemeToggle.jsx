@@ -1,10 +1,15 @@
 import React from "react";
 
-const ThemeToggle = () => {
+const ThemeToggle = ({ setDark }) => {
   return (
     <label className="swap swap-rotate btn btn-square fixed right-4 bottom-4">
       {/* this hidden checkbox controls the state */}
-      <input type="checkbox" className="theme-controller" value="corporate" />
+      <input
+        type="checkbox"
+        className="theme-controller"
+        value="corporate"
+        onClick={() => setDark((prev) => !prev)}
+      />
 
       {/* sun icon */}
       <svg

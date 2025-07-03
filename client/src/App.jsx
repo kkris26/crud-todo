@@ -13,6 +13,7 @@ function App() {
   const [update, setUpdate] = useState({});
   const [toDelete, setToDelete] = useState({});
   const [open, setOpen] = useState(true);
+  const [isDark, setIsDark] = useState(true);
   const modalRef = useRef(null);
   const errorRef = useRef(null);
   const inputRef = useRef(null);
@@ -110,7 +111,7 @@ function App() {
   const addTodo = () => toast.success("Todo added");
   const deleteTodo = () => toast.success("Todo deleted");
   const updateTodo = () => toast.success("Todo updated");
-
+  console.log(isDark);
   return (
     <>
       <ModalWarning
@@ -121,7 +122,7 @@ function App() {
       <ErrorModal ref={errorRef} />
       <ToastContainer
         position="bottom-right"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
@@ -129,10 +130,10 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
+        theme={isDark ? "dark" : "light"}
         transition={Slide}
       />
-      <div className="flex  flex-col gap-2 px-4 md:px-0 items-center w-full md:w-150 mx-auto min-h-screen justify-center">
+      <div className="flex  flex-col gap-2 px-4 md:px-0 items-center w-full md:w-120 mx-auto min-h-screen justify-center">
         <li className="px-1 w-full py-1 rounded-t-md text-xs tracking-wide flex justify-between">
           <p>Your todo list</p>
           <p>
@@ -182,7 +183,7 @@ function App() {
           </div>
         </div>
 
-        <ThemeToggle />
+        <ThemeToggle setDark={setIsDark} />
       </div>
     </>
   );
