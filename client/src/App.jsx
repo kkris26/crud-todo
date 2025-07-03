@@ -46,7 +46,7 @@ function App() {
   };
   const handleUpdate = async (e, updateItem) => {
     e.preventDefault();
-    if (update.title == "") {
+    if (update.title === "" || update.title === updateItem.title) {
       return setUpdate({});
     }
     try {

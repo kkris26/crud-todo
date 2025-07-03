@@ -2,8 +2,8 @@ import React from "react";
 
 const ModalWarning = ({ setRef, itemToDelete, action }) => {
   return (
-    <dialog ref={setRef} id="my_modal_1" className="modal ">
-      <div className="modal-box border border-base-200 w-100">
+    <dialog ref={setRef} id="my_modal_1" className="modal md:px-0 ">
+      <div className="modal-box border border-base-200 max-w-100 ">
         <h3 className="font-bold text-md">Warning !</h3>
         <p className="pt-3 text-sm">
           Are you sure you want to delete <strong>{itemToDelete.title}</strong>?
