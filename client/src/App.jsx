@@ -7,6 +7,7 @@ import InputForm from "./components/InputForm";
 import useGetTodos from "./hooks/useGetTodos";
 import ErrorModal from "./components/ErrorModal";
 import { Slide, ToastContainer, toast } from "react-toastify";
+import Spinner from "./components/Spinner";
 
 function App() {
   const [input, setInput] = useState({ title: "", complete: false });
@@ -17,7 +18,8 @@ function App() {
   const modalRef = useRef(null);
   const errorRef = useRef(null);
   const inputRef = useRef(null);
-  const server = "http://localhost:8000/todos/";
+  const spinnerRef = useRef(null);
+  const server = "https://third-grape-trillium.glitch.me/todos/";
   const { todos, loading, setTodos } = useGetTodos(server, errorRef);
 
   const handleError = () => {
@@ -27,6 +29,7 @@ function App() {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
+      openSpinner();
       const response = await fetch(server, {
         method: "POST",
         headers: {
@@ -42,14 +45,19 @@ function App() {
       console.log(data);
     } catch (error) {
       handleError();
+    } finally {
+      closeSpinner();
     }
   };
   const handleUpdate = async (e, updateItem) => {
     e.preventDefault();
-    if (update.title === "") {
+    const oldData = todos.find((item) => item.id === updateItem.id);
+
+    if (update.title === "" || oldData.title === update.title.trim()) {
       return setUpdate({});
     }
     try {
+      openSpinner();
       const response = await fetch(server + updateItem.id, {
         method: "PUT",
         headers: {
@@ -68,6 +76,8 @@ function App() {
       console.log(data);
     } catch (error) {
       handleError();
+    } finally {
+      closeSpinner();
     }
   };
   const handleOnChange = (e) => {
@@ -93,6 +103,7 @@ function App() {
 
   const handleDelete = async (id) => {
     try {
+      openSpinner();
       await fetch(server + id, {
         method: "DELETE",
       });
@@ -100,6 +111,8 @@ function App() {
       deleteTodo();
     } catch (error) {
       handleError();
+    } finally {
+      closeSpinner();
     }
   };
 
@@ -108,12 +121,20 @@ function App() {
     setToDelete(item);
   };
 
+  function openSpinner() {
+    spinnerRef.current?.showModal();
+  }
+  function closeSpinner() {
+    spinnerRef.current?.close();
+  }
+
   const addTodo = () => toast.success("Todo added");
   const deleteTodo = () => toast.success("Todo deleted");
   const updateTodo = () => toast.success("Todo updated");
   console.log(update);
   return (
     <div>
+      <Spinner spinnerRef={spinnerRef} />
       <ModalWarning
         setRef={modalRef}
         itemToDelete={toDelete}
