@@ -46,7 +46,7 @@ function App() {
   };
   const handleUpdate = async (e, updateItem) => {
     e.preventDefault();
-    if (update.title === "" || update.title === updateItem.title) {
+    if (update.title === "") {
       return setUpdate({});
     }
     try {
@@ -111,7 +111,7 @@ function App() {
   const addTodo = () => toast.success("Todo added");
   const deleteTodo = () => toast.success("Todo deleted");
   const updateTodo = () => toast.success("Todo updated");
-  console.log(isDark);
+  console.log(update);
   return (
     <div>
       <ModalWarning

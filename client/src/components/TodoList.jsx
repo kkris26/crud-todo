@@ -48,22 +48,24 @@ const TodoList = ({
                             update.id !== item.id ? item.title : update.title
                           }
                           ref={update.id === item.id ? inputRef : null}
-                          onClick={() => handleEdit(item)}
-                          readOnly={update.id !== item.id}
+                          onClick={() => !item.complete && handleEdit(item)}
+                          readOnly={update.id !== item.id || item.complete}
                         />
                       </form>
                     </div>
                     <div className="flex gap-1 items-center">
-                      <ButtonIcon
-                        action={(e) =>
-                          update.id !== item.id
-                            ? handleEdit(item)
-                            : handleUpdate(e, update)
-                        }
-                      >
-                        <HoverInfo>Edit</HoverInfo>
-                        <AiOutlineEdit className="text-sm" />
-                      </ButtonIcon>
+                      {!item.complete && (
+                        <ButtonIcon
+                          action={(e) =>
+                            update.id !== item.id
+                              ? handleEdit(item)
+                              : handleUpdate(e, update)
+                          }
+                        >
+                          <HoverInfo>Edit</HoverInfo>
+                          <AiOutlineEdit className="text-sm" />
+                        </ButtonIcon>
+                      )}
                       {update.id !== item.id && (
                         <ButtonIcon action={() => confirmDelete(item)}>
                           <HoverInfo>Delete</HoverInfo>
