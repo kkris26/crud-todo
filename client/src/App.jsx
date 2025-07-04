@@ -28,6 +28,7 @@ function App() {
 
   const handleAdd = async (e) => {
     e.preventDefault();
+    input.title = input.title.trim();
     try {
       openSpinner();
       const response = await fetch(server, {
@@ -51,9 +52,9 @@ function App() {
   };
   const handleUpdate = async (e, updateItem) => {
     e.preventDefault();
+    updateItem.title = updateItem.title.trim();
     const oldData = todos.find((item) => item.id === updateItem.id);
-
-    if (update.title === "" || oldData.title === update.title.trim()) {
+    if (update.title === "" || oldData.title === updateItem.title) {
       return setUpdate({});
     }
     try {
