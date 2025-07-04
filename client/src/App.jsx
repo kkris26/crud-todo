@@ -113,7 +113,7 @@ function App() {
   const updateTodo = () => toast.success("Todo updated");
   console.log(isDark);
   return (
-    <>
+    <div>
       <ModalWarning
         setRef={modalRef}
         itemToDelete={toDelete}
@@ -140,7 +140,7 @@ function App() {
             {todos.filter((item) => item.complete).length}/{todos.length}
           </p>
         </li>
-        <div className="list  rounded-md shadow-sm w-full p-0 border border-base-200">
+        <div className="list  rounded-md shadow-sm w-full p-0 border border-base-200 ">
           <InputForm submit={handleAdd} change={handleOnChange} input={input} />
 
           <div className="join  join-vertical bg-base-100 rounded-md">
@@ -185,7 +185,7 @@ function App() {
 
         <ThemeToggle setDark={setIsDark} />
       </div>
-    </>
+    </div>
   );
 }
 
