@@ -6,7 +6,7 @@
 
 A simple and responsive Todo App built with **React** and powered by a **JSON Server** hosted on **Glitch**. The app supports full **CRUD functionality** (Create, Read, Update, Delete) — ideal for learning and prototyping RESTful API concepts.
 
-![Todo App Screenshot](../client/public/preview.jpeg)
+![Todo App Screenshot](./client/public/preview.jpeg)
 
 ---
 
