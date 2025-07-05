@@ -43,7 +43,6 @@ function App() {
       setInput((prev) => ({ ...prev, title: "" }));
       setOpen(true);
       addTodo();
-      console.log(data);
     } catch (error) {
       handleError();
     } finally {
@@ -77,7 +76,6 @@ function App() {
         updateTodo();
       }
       setUpdate({});
-      console.log(data);
     } catch (error) {
       handleError();
     } finally {
@@ -143,8 +141,6 @@ function App() {
   const addTodo = () => toast.success("Todo added");
   const deleteTodo = () => toast.success("Todo deleted");
   const updateTodo = () => toast.success("Todo updated");
-
-  console.log(update);
   return (
     <div>
       <Spinner type={loading ? "starting" : ""} spinnerRef={spinnerRef} />
