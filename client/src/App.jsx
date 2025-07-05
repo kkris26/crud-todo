@@ -19,7 +19,7 @@ function App() {
   const errorRef = useRef(null);
   const inputRef = useRef(null);
   const spinnerRef = useRef(null);
-  const server = "https://third-grape-trillium.glitch.me/todos/";
+  const server = import.meta.env.VITE_SERVER;
   const { todos, loading, setTodos } = useGetTodos(server, errorRef);
 
   const handleError = () => {
