@@ -214,6 +214,16 @@ function App() {
         </div>
 
         <ThemeToggle setDark={setIsDark} />
+        <p className="mt-2 text-sm">
+          Made with ❤️ by{" "}
+          <a
+            href="https://www.krisnu.com"
+            target="_blank"
+            className="underline"
+          >
+            Krisnu
+          </a>
+        </p>
       </div>
     </div>
   );
