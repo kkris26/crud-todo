@@ -152,7 +152,7 @@ function App() {
       <ErrorModal ref={errorRef} />
       <ToastContainer
         position="top-center"
-        autoClose={1500}
+        autoClose={30000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
