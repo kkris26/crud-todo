@@ -54,7 +54,10 @@ function App() {
     e.preventDefault();
     updateItem.title = updateItem.title.trim();
     const oldData = todos.find((item) => item.id === updateItem.id);
-    if (update.title === "" || oldData.title === updateItem.title) {
+    if (
+      oldData.title === updateItem.title &&
+      oldData.complete === updateItem.complete
+    ) {
       return setUpdate({});
     }
     try {
@@ -97,6 +100,7 @@ function App() {
       inputRef.current?.focus();
     }, 0);
   };
+
   const handleCheck = (e, item) => {
     const isDone = { ...item, complete: !item.complete };
     handleUpdate(e, isDone);
@@ -128,14 +132,22 @@ function App() {
   function closeSpinner() {
     spinnerRef.current?.close();
   }
+  useEffect(() => {
+    if (loading) {
+      openSpinner();
+    } else {
+      closeSpinner();
+    }
+  }, [loading]);
 
   const addTodo = () => toast.success("Todo added");
   const deleteTodo = () => toast.success("Todo deleted");
   const updateTodo = () => toast.success("Todo updated");
+
   console.log(update);
   return (
     <div>
-      <Spinner spinnerRef={spinnerRef} />
+      <Spinner type={loading ? "starting" : ""} spinnerRef={spinnerRef} />
       <ModalWarning
         setRef={modalRef}
         itemToDelete={toDelete}
@@ -143,8 +155,8 @@ function App() {
       />
       <ErrorModal ref={errorRef} />
       <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
+        position="top-center"
+        autoClose={1500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
